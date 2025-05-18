@@ -1,41 +1,63 @@
-// scripts.js
-
 // Initialize the map
-var map = L.map('map').setView([36.1627, -86.7816], 6); // Set the initial view (latitude, longitude, zoom level)
+var map = L.map('map').setView([35.9606, -83.9207], 10); // Default view centered on Knoxville, TN
 
 // Add OpenStreetMap tiles
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Define the style for the GeoJSON
+// Define a style for the GeoJSON layers (Census Tracts)
 function style(feature) {
     return {
-        fillColor: 'rgba(0, 0, 0, 0)',  // Transparent fill
-        weight: 2,                       // Border thickness
-        color: 'black',                  // Border color
-        opacity: 1,                      // Border opacity
-        fillOpacity: 0                  // Fill opacity (0 for transparent)
+        fillColor: 'rgba(0, 0, 255, 0.2)', // Light blue fill
+        weight: 2,
+        color: 'blue',
+        opacity: 1,
+        fillOpacity: 0.4
     };
 }
 
-// Define a function to show the name of the tract in the tooltip
+// Define the function to show details when hovering or clicking
 function onEachFeature(feature, layer) {
-    if (feature.properties && feature.properties.NAME) {  // Check if the property NAME exists
-        layer.bindTooltip('<strong>' + feature.properties.NAME + '</strong>', { sticky: true }); // Show the name in the tooltip
+    let tooltipContent = '';
+
+    // Display the name of the Census Tract
+    if (feature.properties && feature.properties.NAME_y) {
+        tooltipContent += `Census Tract: ${feature.properties.NAME_y}<br>`;
+    }
+
+    // Add Housing Data (e.g., DP05_0091PE) to the tooltip or popup
+    if (feature.properties && feature.properties.DP05_0091E) {
+        tooltipContent += `<strong>Estimate: ${feature.properties.DP05_0091E}</strong>`;
+    }
+
+    // Bind the tooltip to the layer
+    if (tooltipContent) {
+        layer.bindTooltip(tooltipContent, { sticky: true });  // Show the tooltip on hover
+        layer.bindPopup(tooltipContent); // Or bind a popup that shows on click
     }
 }
 
-// Load and add GeoJSON data from the 'data' folder with custom style and interactivity
-fetch('data/TN_Census.geojson')  // Path to your GeoJSON file in the 'data' folder
+// Load the merged GeoJSON data (already contains the housing data)
+fetch('data/merged_data.geojson')
     .then(response => response.json())
-    .then(data => {
-        // Add the GeoJSON layer with the specified style and interactivity
-        L.geoJSON(data, {
+    .then(mergedData => {
+        // Add the merged GeoJSON data to the map with style and interactivity
+        L.geoJSON(mergedData, {
             style: style,
-            onEachFeature: onEachFeature // Apply the function to each feature
+            onEachFeature: onEachFeature  // Add the feature details (tooltips/popups)
         }).addTo(map);
     })
     .catch(error => {
         console.error('Error loading GeoJSON data:', error);
     });
+
+// Zoom to Memphis when the "Zoom to Memphis" button is clicked
+document.getElementById('zoomMemphis').addEventListener('click', function() {
+    map.setView([35.1495, -90.0490], 12);  // Memphis coordinates and zoom level
+});
+
+// Zoom to Knoxville when the "Zoom to Knoxville" button is clicked
+document.getElementById('zoomKnoxville').addEventListener('click', function() {
+    map.setView([35.9606, -83.9207], 10);  // Knoxville coordinates and zoom level
+});

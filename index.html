@@ -1,32 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Meta Information -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Housing Data Map</title>
+    <title>Map with Zoom Buttons</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        /* Set the map container height */
+        #map { height: 500px; }
 
-    <!-- Link to your CSS file -->
-    <link rel="stylesheet" href="css/stylish.css">
+        /* Style for the container holding the buttons */
+        .buttons-container {
+            position: absolute;
+            top: 20px;  /* Adjust top spacing */
+            right: 20px;  /* Position it at the top-right corner */
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;  /* Stack buttons vertically */
+        }
 
-    <!-- Leaflet CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-fullscreen/dist/leaflet.fullscreen.css" />
-    
-    <!-- Leaflet.Search CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet-search/dist/leaflet-search.min.css" />
+        /* Style for the individual buttons */
+        button {
+            margin-bottom: 10px;  /* Add space between the buttons */
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;  /* Optional: rounded corners */
+        }
 
-    <!-- Link to your JavaScript file -->
-    <script src="js/scripts.js" defer></script>
-
-    <!-- Leaflet JavaScript -->
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet-fullscreen/dist/Leaflet.fullscreen.js"></script>
-    <script src="https://unpkg.com/leaflet-search/dist/leaflet-search.min.js"></script>
+        button:hover {
+            background-color: #0056b3;  /* Darker blue on hover */
+        }
+    </style>
 </head>
 <body>
-    <!-- Map container -->
-    <div id="map" style="height: 600px;"></div>
+
+<!-- Buttons container (positioned top-right) -->
+<div class="buttons-container">
+    <button id="zoomMemphis">Memphis</button>
+    <button id="zoomKnoxville">Knoxville</button>
+</div>
+
+<!-- Map container -->
+<div id="map"></div>
+
+<!-- Include Leaflet and your custom JavaScript -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="js/scripts.js"></script> <!-- Your existing JavaScript file -->
 
 </body>
 </html>
