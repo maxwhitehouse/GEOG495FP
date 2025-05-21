@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map with Zoom Buttons</title>
+    <title>GEOG495</title>
+    <link rel="stylesheet" href="styles.css">  <!-- Link to the CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <style>
         /* Set the map container height */
-        #map { height: 500px; }
+        #map { height: 700px; }
 
         /* Style for the container holding the buttons */
         .buttons-container {
@@ -23,7 +24,7 @@
         button {
             margin-bottom: 10px;  /* Add space between the buttons */
             padding: 10px;
-            background-color: #007bff;
+            background-color: #434445;
             color: white;
             border: none;
             cursor: pointer;
@@ -31,8 +32,43 @@
         }
 
         button:hover {
-            background-color: #0056b3;  /* Darker blue on hover */
+            background-color: #0f0d0d;  /* Darker blue on hover */
         }
+        .leaflet-control-layers {
+            position: absolute;
+            top: 0px;  /* Position the basemap switcher below the buttons */
+            right: 100px; /* Ensure it aligns with the buttons */
+            z-index: 999; /* Keep it slightly lower than the buttons */
+        }
+
+/* Custom styles for the legend */
+.info.legend {
+        background-color: white;  /* Set the background to white */
+        border-radius: 5px;  /* Rounded corners */
+        padding: 10px;  /* Add padding inside the legend box */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);  /* Optional: Add shadow */
+    }
+
+    /* Style for the individual color squares in the legend */
+  .info.legend i {
+        width: 20px;
+        height: 20px;
+        margin-right: 5px;
+    }
+
+/* For the large welcome popup */
+.leaflet-popup.welcome-popup .leaflet-popup-content-wrapper {
+    width: 500px;
+    padding: 15px;
+    font-size: 16px;
+}
+
+/* For the smaller data info popup */
+.leaflet-popup.info-popup .leaflet-popup-content-wrapper {
+    max-width: 220px;
+    padding: 10px;
+    font-size: 14px;
+}
     </style>
 </head>
 <body>
@@ -48,7 +84,7 @@
 
 <!-- Include Leaflet and your custom JavaScript -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-<script src="js/scripts.js"></script> <!-- Your existing JavaScript file -->
+<script src="js/scripts2.js"></script> <!-- Your existing JavaScript file -->
 
 </body>
 </html>
